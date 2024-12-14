@@ -28,6 +28,7 @@ import com.example.stcmarvelapp.presentation.characters_list.adapter.CharactersL
 import com.example.stcmarvelapp.presentation.characters_list.viewmodel.CharactersListViewmodel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
@@ -71,6 +72,12 @@ class CharactersListFragment : Fragment() {
                     R.id.menu_search -> {
                         val searchView = menuItem.actionView as SearchView
                         searchView.queryHint = getString(R.string.search_by_name)
+
+                        // reset the current search text to the search view
+                        lifecycleScope.launch {
+                            delay(100)
+                            searchView.setQuery(viewModel.searchText, false)
+                        }
 
                         lifecycleScope.launch {
                             searchView.getQueryTextChangeStateFlow()
