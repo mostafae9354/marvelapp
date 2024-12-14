@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">STCMarvelApp</string>
+    <string name="search_by_name">Search by name</string>
+    <string name="name">NAME</string>
+    <string name="description">DESCRIPTION</string>
+    <string name="comics">COMICS</string>
+</resources>
