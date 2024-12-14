@@ -17,15 +17,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.stcmarvelapp.R
 import com.example.stcmarvelapp.core.Constants
+import com.example.stcmarvelapp.core.utils.PaginationScrollListener
 import com.example.stcmarvelapp.core.utils.getQueryTextChangeStateFlow
 import com.example.stcmarvelapp.core.utils.hide
 import com.example.stcmarvelapp.core.utils.show
+import com.example.stcmarvelapp.databinding.FragmentCharactersListBinding
 import com.example.stcmarvelapp.presentation.characters_list.adapter.CharactersListAdapter
 import com.example.stcmarvelapp.presentation.characters_list.viewmodel.CharactersListViewmodel
-import com.example.stcmarvelapp.core.utils.PaginationScrollListener
-import com.example.stcmarvelapp.R
-import com.example.stcmarvelapp.databinding.FragmentCharactersListBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.debounce
@@ -77,9 +77,8 @@ class CharactersListFragment : Fragment() {
                                 .debounce(1000)
                                 .distinctUntilChanged()
                                 .collect { query ->
-                                    if (viewModel.searchText != query) {
+                                    if (viewModel.searchText != query && searchView.hasFocus()) {
                                         viewModel.searchText = query
-                                        viewModel.isSearchQueryChanged = true
                                         viewModel.offset = 0
                                         viewModel.getCharactersList()
                                     }
@@ -138,7 +137,7 @@ class CharactersListFragment : Fragment() {
                     }
 
                     if (it.charactersList.isNullOrEmpty()) {
-                        if (viewModel.isSearchQueryChanged) {
+                        if (viewModel.isFirstPage()) {
                             binding.rvCharacters.hide()
                         }
                     } else {
@@ -150,7 +149,6 @@ class CharactersListFragment : Fragment() {
                             it.charactersList,
                             keepOld = !viewModel.isSearchQueryChanged
                         )*/
-                        viewModel.isSearchQueryChanged = false
                     }
 
                     if (!it.error.isNullOrEmpty()) {

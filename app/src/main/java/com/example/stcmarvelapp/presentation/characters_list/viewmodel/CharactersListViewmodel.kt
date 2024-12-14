@@ -22,9 +22,7 @@ class CharactersListViewmodel @Inject constructor(
     val charactersListUiState: StateFlow<CharactersListUiState?> = _charactersListUiState
 
     private val currentList: MutableList<MarvelCharacter> = mutableListOf()
-
     var searchText: String = ""
-    var isSearchQueryChanged = false
     var offset = 0
 
     fun getCharactersList() = viewModelScope.launch(Dispatchers.IO) {
@@ -44,7 +42,7 @@ class CharactersListViewmodel @Inject constructor(
                 }
 
                 is Response.Success -> {
-                    if (isSearchQueryChanged) {
+                    if (isFirstPage()) {
                         currentList.clear()
                     }
                     currentList.addAll(response.data ?: listOf())
@@ -54,4 +52,6 @@ class CharactersListViewmodel @Inject constructor(
             }
         }
     }
+
+    fun isFirstPage() = offset == 0
 }
