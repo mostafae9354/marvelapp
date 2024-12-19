@@ -28,6 +28,7 @@ import com.example.stcmarvelapp.presentation.characters_list.adapter.CharactersL
 import com.example.stcmarvelapp.presentation.characters_list.viewmodel.CharactersListViewmodel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -61,6 +62,7 @@ class CharactersListFragment : Fragment() {
         observeUiState()
     }
 
+    @OptIn(FlowPreview::class)
     private fun addSearchMenu() {
         requireActivity().addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
